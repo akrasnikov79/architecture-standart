@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: Deposit Service API
+  description: REST API для микросервиса открытия депозитов (Витрина + Подача заявок клиентами в ИБ)
+  version: 1.0.0
+servers:
+  - url: https://api.standart.bank/v1/deposits
+
+tags:
+  - name: Products
+    description: Витрина депозитных продуктов
+  - name: Applications
+    description: Подача и управление заявками на открытие
+
+paths:
+  /products:
+    get:
+      summary: Получить список доступных депозитов
+      tags: [Products]
+      responses:
+        '200':
+          description: Успешный ответ со списком продуктов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositProduct'
+
+  /applications:
+    post:
+      summary: Подать онлайн-заявку на открытие депозита
+      tags: [Applications]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+      responses:
+        '201':
+          description: Заявка успешно создана и передана в обработку (в АБС)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositApplication'
+        '400':
+          description: Ошибка валидации запроса
+        '401':
+          description: Не авторизован (Отсутствует токен ИБ)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    DepositProduct:
+      type: object
+      properties:
+        productCode:
+          type: string
+          example: "DEP-STANDART-01"
+        title:
+          type: string
+          example: "Стандартный Вклад Онлайн"
+        baseInterestRate:
+          type: number
+          format: double
+          example: 12.5
+        minAmount:
+          type: number
+          format: double
+          example: 50000.00
+        maxTermMonths:
+          type: integer
+          example: 12
+
+    ApplicationCreateRequest:
+      type: object
+      required:
+        - productCode
+        - requestedAmount
+        - otpCode
+      properties:
+        productCode:
+          type: string
+          example: "DEP-STANDART-01"
+        requestedAmount:
+          type: number
+          format: double
+          example: 100000.00
+        otpCode:
+          type: string
+          description: СМС-код подтверждения, полученный на телефон клиента
+          example: "482910"
+
+    DepositApplication:
+      type: object
+      properties:
+        applicationId:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        productCode:
+          type: string
+        requestedAmount:
+          type: number
+          format: double
+        status:
+          type: string
+          enum: [NEW, PENDING_BACKOFFICE, RATE_APPROVED, OPENED, REJECTED]
+        createdAt:
+          type: string
+          format: date-time

@@ -1,0 +1,87 @@
+asyncapi: 2.6.0
+info:
+  title: ABS Deposit Integration Async API
+  version: 1.0.0
+  description: Асинхронный контракт интеграции Deposit Service (ИБ) c АБС (через очереди Apache Kafka). Защищает АБС от перегрузки при подаче заявок из онлайн-каналов.
+servers:
+  production-kafka:
+    url: kafka.standart.bank:9092
+    protocol: kafka
+    description: Внутренний кластер Kafka для асинхронной обработки
+
+channels:
+  abs.deposit.applications.created.v1:
+    description: Топик для передачи новых заявок на депозиты из ИБ в АБС
+    publish:
+      summary: Deposit Service публикует новую заявку
+      operationId: publishNewApplication
+      message:
+        $ref: '#/components/messages/ApplicationCreatedEvent'
+    subscribe:
+      summary: ABS Integration Layer подписывается на новые заявки (для сохранения в очередь Бэк-офиса)
+      operationId: processNewApplication
+      message:
+        $ref: '#/components/messages/ApplicationCreatedEvent'
+
+  abs.deposit.applications.status_changed.v1:
+    description: Топик для получения обновлений статусов от АБС (после ручной обработки менеджером)
+    subscribe:
+      summary: Deposit Service подписывается на изменение статуса для обновления БД ИБ
+      operationId: updateApplicationStatus
+      message:
+        $ref: '#/components/messages/ApplicationStatusChangedEvent'
+    publish:
+      summary: ABS публикует статус заявки (ОДОБРЕНО / ОТКРЫТО / ОТКАЗ)
+      operationId: publishApplicationStatus
+      message:
+        $ref: '#/components/messages/ApplicationStatusChangedEvent'
+
+components:
+  messages:
+    ApplicationCreatedEvent:
+      name: ApplicationCreated
+      title: Заявка на депозит создана (Event)
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ApplicationPayload'
+
+    ApplicationStatusChangedEvent:
+      name: ApplicationStatusChanged
+      title: Статус заявки изменен в АБС (Event)
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/StatusChangePayload'
+
+  schemas:
+    ApplicationPayload:
+      type: object
+      properties:
+        applicationId:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        productCode:
+          type: string
+        requestedAmount:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+
+    StatusChangePayload:
+      type: object
+      properties:
+        applicationId:
+          type: string
+          format: uuid
+        newStatus:
+          type: string
+          enum: [PENDING_BACKOFFICE, RATE_APPROVED, OPENED, REJECTED]
+        approvedRate:
+          type: number
+          description: Утвержденная бэк-офисом ставка (если статус RATE_APPROVED или OPENED)
+        updatedAt:
+          type: string
+          format: date-time

@@ -1,45 +1,56 @@
-  
-sequenceDiagram
-    actor Client as Клиент
-    actor CallCenter as Сотрудник Кол-центра
-    actor Front as Сотрудник Фронт-офиса
-    actor BackDep as Бэк-офис (Депозиты)
-    actor BackCred as Бэк-офис (Кредиты)
+# Схема интеграции и бизнес-процесса открытия депозита (BPMN Collaboration)
 
-    box Системы
-        participant CRM as Система Кол-центра
-        participant ABS as АБС (Oracle/Delphi)
-        participant SMS as СМС-шлюз
-        participant Mail as Корпоративная почта
+Диаграмма описывает сквозной бизнес-процесс (уровень Collaboration) с участием Клиента, Кол-центра и Бэк-офиса, демонстрируя ручные шаги и обмены сообщениями между независимыми пулами (свимлайнами).
+
+```mermaid
+flowchart TD
+    %% Определение стилей
+    classDef manualProcess fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef systemProcess fill:#bbf,stroke:#333,stroke-width:2px;
+    
+    subgraph ClientPool [Клиент]
+        direction TB
+        c_start((Начало)) --> c_search(Поиск предложений \nна сайте/в ИБ)
+        c_search --> c_apply(Оставляет \nонлайн заявку)
+        c_apply --> c_wait(Ожидание звонка)
+        c_wait --> c_visit(Визит в \nотделение)
+        c_visit --> c_sign(Подписание \nдоговора)
+        c_sign --> c_end((Депозит \nоткрыт))
     end
 
-    %% Процесс предварительной заявки
-    Client->>CallCenter: Звонок для уточнения деталей
-    CallCenter->>CRM: Заводит обращение
-    CRM->>ABS: Передача обращения
+    subgraph CCPool [Кол-центр]
+        direction TB
+        cc_receive(Прием лида в CRM)
+        cc_call{Звонок клиенту}:::manualProcess
+        cc_confirm(Фиксация условий)
+        cc_receive --> cc_call
+        cc_call -->|Клиент согласен| cc_confirm
+        cc_call -->|Отказ| cc_cancel((Отмена))
+    end
+
+    subgraph BOPool [Бэк-офис (Менеджеры)]
+        direction TB
+        bo_receive(Очередь новых заявок)
+        bo_calc(Расчет индивидуальной \nставки в Excel):::manualProcess
+        bo_approve(Ввод ставки \nи утверждение в АБС):::manualProcess
+        bo_receive --> bo_calc --> bo_approve
+    end
+
+    subgraph ABSPool [АБС]
+        direction TB
+        abs_store(Сохранение статуса \n"Заявка создана"):::systemProcess
+        abs_update(Статус "Ставка утверждена"):::systemProcess
+        abs_open(Создание \nдепозитного счета):::systemProcess
+        abs_sms(Отправка команды \nв СМС-шлюз):::systemProcess
+        abs_store --> abs_update --> abs_open --> abs_sms
+    end
+
+    %% Взаимодействие между пулами (Message Flows)
+    c_apply -.->|Отправка формы| cc_receive
+    cc_confirm -.->|Передача параметров| bo_receive
+    bo_approve -.->|Ручной ввод| abs_update
+    abs_store -.->|Push-уведомление| bo_receive
     
-    %% Обработка заявки бэк-офисом
-    ABS->>BackDep: Поступает заявка из кол-центра
-    BackDep->>BackCred: Запрос уровня кредитного риска (согласование спец. ставки)
-    BackCred->>ABS: Анализ риска по клиенту
-    BackCred-->>BackDep: Ответ (уровень риска / ставка)
-    Note over BackDep: Ручной расчет ставки в Excel
-    BackDep->>ABS: Обработка заявки и указание рассчитанной ставки
-    ABS->>SMS: Команда на отправку СМС
-    SMS-->>Client: СМС: "Вам одобрен депозит под ставку X%"
-    
-    %% Визит в отделение
-    Client->>Front: Личный визит в отделение
-    Alt Без предварительного звонка
-        Front->>Mail: Письмо в бэк-офис
-        Mail->>BackDep: Запрос ставки
-        BackDep->>Mail: Ответ со ставкой
-        Mail-->>Front: Ставка для клиента
-    End
-    
-    Note over Front, Client: Обсуждение условий, согласие клиента
-    Front->>ABS: Создание депозита
-    Note over Front, Client: Подписание бумажных документов
-    Front->>ABS: Загрузка подписанных документов
-    Note over Front, Client: Депозит открыт (Ожидание 20-60 мин)
- 
+    abs_sms -.->|Доставка СМС| c_end
+    c_sign -.->|Подтверждение| abs_open
+```
