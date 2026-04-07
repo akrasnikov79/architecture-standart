@@ -1,5 +1,7 @@
 # C4 Container Diagram (Уровень Контейнеров)
 
+Детализация Интернет-банка и АБС — двух ключевых систем решения. Источник правды — [ADR_Deposit_Online.md](ADR_Deposit_Online.md).
+
 ```mermaid
 C4Container
     title C4 Контейнеры: Детализация Интернет-Банка и АБС
@@ -8,39 +10,38 @@ C4Container
     Person(managerBO, "Менеджер Бэк-офиса", "Сотрудник депозитного отдела")
 
     System_Boundary(ib, "Интернет-Банк (Система)") {
-        Container(ib_spa, "Web Application", "SPA", "Frontend часть ИБ пользователя")
-        Container(ib_api, "API Gateway / BFF", "API Gateway", "Единая точка входа для фронтенда, маршрутизация")
-        Container(ib_legacy, "IB Monolith", "Web Server", "Унаследованный функционал (платежи)")
-        Container(dep_service, "Deposit Microservice", "Microservice", "Новый микросервис для витрины депозитов и заявок (MVP)")
-        ContainerDb(dep_db, "Deposit DB", "Relational Database", "Хранение кэша ставок, справочников и статусов заявок ИБ")
+        Container(ib_spa, "Web Application", "SPA (React.js)", "Frontend-часть ИБ пользователя")
+        Container(ib_api, "API Gateway / BFF", "API Gateway", "Единая точка входа, маршрутизация, аутентификация")
+        Container(ib_legacy, "IB Monolith", "ASP.NET MVC 4.5", "Унаследованный функционал (платежи, текущие счета)")
+        Container(dep_service, "Deposit Microservice", "ASP.NET Core", "Витрина депозитов, приём заявок, кэш ставок (MVP)")
+        ContainerDb(dep_db, "Deposit DB", "MS SQL", "Кэш ставок, справочники, статусы заявок ИБ")
     }
+
+    Container(kafka, "Message Broker", "Apache Kafka", "Асинхронный транспорт между ИБ и АБС")
 
     System_Boundary(abs, "АБС (Система)") {
-        Container(abs_api, "ABS Integration Layer", "Integration Service", "API для внешних систем (очередь заявок)")
-        Container(abs_core, "ABS Core", "Core System", "Ядро процессинга")
-        ContainerDb(abs_db, "ABS Database", "Relational Database", "Главная БД банка")
-        Container(abs_client, "ABS Desktop Client", "Desktop App", "Рабочее место сотрудника (Бэк-офис)")
+        Container(abs_api, "ABS Integration Layer", "Java Spring Boot", "Интеграционный шлюз: приём/отправка событий через Kafka")
+        Container(abs_core, "ABS Core", "PL/SQL, Delphi", "Ядро процессинга, бизнес-логика")
+        ContainerDb(abs_db, "ABS Database", "Oracle", "Главная БД банка")
+        Container(abs_client, "ABS Desktop Client", "Delphi", "Рабочее место сотрудника бэк-офиса")
     }
 
-    System_Ext(sms, "СМС-Шлюз Tele2", "Внешняя система")
+    System_Ext(sms, "СМС-Шлюз", "Внешняя система телеком-оператора")
 
-    %% Связи клиента и ИБ
     Rel(client, ib_spa, "Управление счетами, открытие депозита")
     Rel(ib_spa, ib_api, "Вызов API операций")
-    Rel(ib_api, ib_legacy, "Маршрутизация legacy")
-    Rel(ib_api, dep_service, "Маршрутизация депозитов")
+    Rel(ib_api, ib_legacy, "Маршрутизация legacy-запросов")
+    Rel(ib_api, dep_service, "Маршрутизация запросов по депозитам")
     
-    %% Логика внутри ИБ
     Rel(dep_service, dep_db, "Чтение справочников, запись заявок")
+    Rel(dep_service, kafka, "Публикация ApplicationCreatedEvent")
+    Rel(dep_service, sms, "Запрос отправки OTP")
     
-    %% Связи ИБ с внешним миром
-    Rel(dep_service, abs_api, "Публикация заявки в очередь (Async)")
-    Rel(dep_service, sms, "Запрос отправки пароля")
-    
-    %% Логика внутри АБС
-    Rel(abs_api, abs_core, "Передача событий в ядро")
-    Rel(abs_core, abs_db, "Чтение/Логирование")
+    Rel(kafka, abs_api, "Доставка событий заявок")
+    Rel(abs_api, abs_core, "Передача в ядро для обработки")
+    Rel(abs_core, abs_db, "Чтение/запись данных")
     Rel(managerBO, abs_client, "Утверждение заявки (MVP)")
-    Rel(abs_client, abs_db, "Запись статуса депозита")
-    Rel(abs_core, sms, "Оповещение об открытии")
+    Rel(abs_client, abs_core, "Работа со ставками и заявками")
+    Rel(abs_core, kafka, "Публикация ApplicationStatusChangedEvent")
+    Rel(abs_core, sms, "Оповещение об открытии депозита")
 ```
