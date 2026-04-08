@@ -54,64 +54,12 @@ CRM-система внутреннего КЦ — это Java Spring Boot ми�
 
 ---
 
-#### Диаграмма контекста (C4 Level 1) — Кейс передачи ставок в КЦ
+#### Архитектурные диаграммы
 
-```mermaid
-C4Context
-    title C4 Контекст: Передача ставок в кол-центры
+Визуализация решения вынесена в отдельные файлы (требование оформления Яндекса):
 
-    Person(operatorCC, "Оператор внутреннего КЦ", "Консультирует клиентов по ставкам депозитов")
-    Person(operatorPartner, "Оператор партнёрского КЦ", "Консультирует клиентов по скрипту с актуальными ставками")
-    Person(client, "Клиент банка", "Звонит для уточнения условий депозита")
-
-    System(abs, "АБС", "Хранение матрицы ставок, ежедневная выгрузка")
-    System(cc_crm, "Система Кол-центра (CRM)", "Внутренняя CRM: карточки обращений, отображение ставок онлайн")
-    System_Ext(partner_cc, "Система Партнёрского КЦ", "Внешняя система: импорт ставок из файлов")
-    System_Ext(smtp, "SMTP-сервер", "Почтовый сервер банка для отправки файлов")
-
-    Rel(client, operatorCC, "Звонок в КЦ банка")
-    Rel(client, operatorPartner, "Звонок в партнёрский КЦ")
-    Rel(operatorCC, cc_crm, "Просмотр ставок, работа с обращениями")
-    Rel(operatorPartner, partner_cc, "Просмотр ставок, консультация по скрипту")
-    
-    Rel(abs, cc_crm, "REST API: актуальные ставки онлайн (UC-5)")
-    Rel(abs, smtp, "Ежедневная отправка зашифрованного CSV (UC-3)")
-    Rel(smtp, partner_cc, "Email с вложением (PGP/S-MIME)")
-```
-
----
-
-#### Диаграмма компонентов ABS Integration Layer (C4 Level 3) — Кейс передачи ставок
-
-```mermaid
-C4Component
-    title C4 Компоненты: ABS Integration Layer (расширение для кол-центров)
-
-    Container_Boundary(abs_il, "ABS Integration Layer (Java Spring Boot)") {
-        Component(rates_api, "Rates API Controller", "REST Controller", "GET /api/v1/rates — возвращает актуальные ставки для CRM (UC-5)")
-        Component(rates_cache, "Rates Cache Service", "Service", "Кэширование матрицы ставок из Oracle DB, обновление по расписанию")
-        Component(export_job, "Daily Export Job", "Scheduled Task", "Ежедневное задание: формирование CSV из матрицы ставок (UC-3)")
-        Component(crypto_service, "Crypto Service", "Service", "Шифрование файла (PGP/S-MIME) перед отправкой")
-        Component(smtp_client, "SMTP Client", "Service", "Отправка зашифрованного файла на email партнёра")
-        Component(delivery_monitor, "Delivery Monitor", "Service", "Мониторинг доставки: проверка отправки, логирование, алертинг при сбоях")
-    }
-
-    ContainerDb(abs_db, "ABS Database", "Oracle", "Матрица ставок, данные о депозитах")
-    Container(cc_crm, "CRM Кол-центра", "Java Spring Boot", "Внутренняя CRM-система")
-    System_Ext(smtp_server, "SMTP-сервер", "Почтовый сервер банка")
-    System_Ext(partner_cc, "Система Партнёрского КЦ", "Внешняя система")
-
-    Rel(cc_crm, rates_api, "GET /api/v1/rates (HTTPS)")
-    Rel(rates_api, rates_cache, "Чтение из кэша")
-    Rel(rates_cache, abs_db, "SELECT из матрицы ставок (по расписанию)")
-
-    Rel(export_job, abs_db, "SELECT актуальных ставок")
-    Rel(export_job, crypto_service, "Передача CSV для шифрования")
-    Rel(crypto_service, smtp_client, "Передача зашифрованного файла")
-    Rel(smtp_client, smtp_server, "Отправка email с вложением")
-    Rel(smtp_server, partner_cc, "Доставка письма")
-    Rel(smtp_client, delivery_monitor, "Логирование результата отправки")
-```
+- **C4 Level 1 — Контекст:** [C4_Context.md](C4_Context.md) — участники и системы в процессе обеспечения внутреннего и партнёрского КЦ актуальными ставками.
+- **C4 Level 3 — Компоненты ABS Integration Layer:** [C4_Components.md](C4_Components.md) — внутреннее устройство расширения ABS Integration Layer для подзадач A (REST API) и B (файловая выгрузка).
 
 ---
 
