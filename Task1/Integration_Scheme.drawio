@@ -1,0 +1,248 @@
+<mxfile host="65bd71144e">
+    <diagram name="Схема интеграции приложений — Процесс открытия депозита" id="integration-scheme">
+        <mxGraphModel dx="2037" dy="1166" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3000" pageHeight="2400" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="&lt;b&gt;Схема интеграции приложений банка «Стандарт»&lt;/b&gt;&lt;br&gt;Процесс открытия депозита (AS-IS)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="10" width="900" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="client" value="&lt;b&gt;Клиент&lt;/b&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="400" width="40" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="telecom" value="&lt;b&gt;Телеком-оператор&lt;/b&gt;&lt;br&gt;(внешний)" style="shape=mxgraph.basic.cloud_callout;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="1350" y="830" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="partner_cc" value="&lt;b&gt;Партнёрский&lt;br&gt;кол-центр&lt;/b&gt;&lt;br&gt;(внешний, 100 чел.)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="1350" y="170" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="site" value="&lt;b&gt;Сайт банка&lt;/b&gt;&lt;br&gt;PHP + React.js&lt;br&gt;&lt;i&gt;(собственная разработка)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="140" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ibank" value="&lt;b&gt;Интернет-банк&lt;/b&gt;&lt;br&gt;ASP.NET MVC 4.5&lt;br&gt;MS SQL&lt;br&gt;&lt;i&gt;(платформа подрядчика)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="280" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="crm" value="&lt;b&gt;Система кол-центра / CRM&lt;/b&gt;&lt;br&gt;Java Spring Boot&lt;br&gt;PostgreSQL (микросервисы)&lt;br&gt;&lt;i&gt;(платформа подрядчика)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="140" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="abs" value="&lt;b&gt;АБС&lt;/b&gt;&lt;br&gt;(Автоматизированная&lt;br&gt;Банковская Система)&lt;br&gt;Delphi + Oracle PL/SQL&lt;br&gt;&lt;i&gt;(собственная разработка)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;fontStyle=0;" parent="1" vertex="1">
+                    <mxGeometry x="830" y="370" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="sms_gw" value="&lt;b&gt;СМС-шлюз&lt;/b&gt;&lt;br&gt;&lt;i&gt;(IT-отдел банка)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="1120" y="830" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="front_office" value="&lt;b&gt;Фронт-офис&lt;/b&gt;&lt;br&gt;(отделения, 500 чел.)&lt;br&gt;Идентификация клиента,&lt;br&gt;создание депозита в АБС,&lt;br&gt;выдача документов" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="380" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="call_center" value="&lt;b&gt;Кол-центр (внутренний)&lt;/b&gt;&lt;br&gt;(200 операторов)&lt;br&gt;Консультации, заведение&lt;br&gt;обращений в CRM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="140" width="190" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="bo_deposits" value="&lt;b&gt;Бэк-офис (Депозиты)&lt;/b&gt;&lt;br&gt;(50 чел.)&lt;br&gt;Расчёт ставок в Excel,&lt;br&gt;обработка заявок в АБС" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="830" y="580" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="bo_credits" value="&lt;b&gt;Бэк-офис (Кредиты)&lt;/b&gt;&lt;br&gt;(50 чел.)&lt;br&gt;Анализ кредитного риска&lt;br&gt;в АБС, расчёт ставок" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="610" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="Просмотр предложений,&lt;br&gt;подача заявки на депозит" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#9673a6;fontColor=#333333;entryX=0;entryY=0.5;exitX=0.5;exitY=0;" parent="1" source="client" target="site" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="Платежи, открытие&lt;br&gt;счетов, ДБО" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#9673a6;fontColor=#333333;entryX=0;entryY=0.5;" parent="1" source="client" target="ibank" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="Визит в отделение" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;fontColor=#333333;entryX=0;entryY=0.5;" parent="1" source="client" target="front_office" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="Звонок для&lt;br&gt;уточнения условий" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;fontColor=#333333;dashed=1;entryX=0.5;entryY=0;exitX=0.5;exitY=0;entryDx=0;entryDy=0;" parent="1" source="client" target="call_center" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="50" y="100"/>
+                            <mxPoint x="895" y="100"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e5" value="&lt;font color=&quot;#CC0000&quot;&gt;&lt;b&gt;Прямая интеграция&lt;br&gt;с БД АБС&lt;/b&gt;&lt;/font&gt;&lt;br&gt;(платежи, счета)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#CC0000;fontColor=#CC0000;strokeWidth=2;entryX=0.418;entryY=-0.03;exitX=1;exitY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="ibank" target="abs" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="922" y="320"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e6" value="Работает в системе" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#9673a6;fontColor=#333333;entryX=0.5;entryY=1;exitX=0.5;exitY=1;entryDx=0;entryDy=0;" parent="1" source="call_center" target="crm" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="895" y="270"/>
+                            <mxPoint x="605" y="270"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e7" value="Передача обращений&lt;br&gt;в АБС" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;fontColor=#333333;entryX=0;entryY=0.7;exitX=1;exitY=0.558;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="crm" target="abs" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="750" y="185"/>
+                            <mxPoint x="750" y="440"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e8" value="Рабочее место:&lt;br&gt;создание депозита,&lt;br&gt;загрузка документов" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;fontColor=#333333;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" parent="1" source="front_office" target="abs" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" value="&lt;font color=&quot;#CC6600&quot;&gt;Email: запрос ставки&lt;br&gt;(ручной процесс)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#CC6600;fontColor=#CC6600;dashed=1;dashPattern=8 4;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" parent="1" source="front_office" target="bo_deposits" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="600" y="530"/>
+                            <mxPoint x="650" y="530"/>
+                            <mxPoint x="650" y="620"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e10" value="&lt;font color=&quot;#CC6600&quot;&gt;Email: ответ со ставкой&lt;br&gt;(ручной процесс)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#CC6600;fontColor=#CC6600;dashed=1;dashPattern=8 4;exitX=0;exitY=0.3;entryX=0.75;entryY=1;" parent="1" source="bo_deposits" target="front_office" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="770" y="604"/>
+                            <mxPoint x="770" y="510"/>
+                            <mxPoint x="650" y="510"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e11" value="Обработка заявок,&lt;br&gt;ввод ставки" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;fontColor=#333333;entryX=0.5;entryY=1;exitX=0.5;exitY=0;" parent="1" source="bo_deposits" target="abs" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" value="&lt;font color=&quot;#CC6600&quot;&gt;Email: запрос&lt;br&gt;кредитного риска&lt;br&gt;(для спец. ставок)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#CC6600;fontColor=#CC6600;dashed=1;dashPattern=8 4;exitX=0;exitY=0.7;entryX=1;entryY=0.3;" parent="1" source="bo_deposits" target="bo_credits" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="610" y="636"/>
+                            <mxPoint x="610" y="634"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e13" value="&lt;font color=&quot;#CC6600&quot;&gt;Email: данные&lt;br&gt;кредитного риска&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#CC6600;fontColor=#CC6600;dashed=1;dashPattern=8 4;exitX=1;exitY=0.7;entryX=0.45;entryY=1.019;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="bo_credits" target="bo_deposits" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="740" y="676"/>
+                            <mxPoint x="740" y="690"/>
+                            <mxPoint x="920" y="690"/>
+                        </Array>
+                        <mxPoint x="920" y="670" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e14" value="Анализ кредитного&lt;br&gt;риска в АБС" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;fontColor=#333333;exitX=0.5;exitY=0;entryX=0;entryY=1;" parent="1" source="bo_credits" target="abs" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="490" y="560"/>
+                            <mxPoint x="810" y="560"/>
+                            <mxPoint x="810" y="470"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="excel" value="&lt;b&gt;Excel&lt;/b&gt;&lt;br&gt;(расчёт ставок&lt;br&gt;депозитов)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="580" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_excel" value="Ежедневный расчёт&lt;br&gt;ставок на основе&lt;br&gt;ставки рефинансирования ЦБ" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;strokeColor=#d6b656;fontColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="bo_deposits" target="excel" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_excel2" value="&lt;font color=&quot;#CC6600&quot;&gt;Email: ежедневная&lt;br&gt;рассылка ставок (Excel)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;strokeColor=#CC6600;fontColor=#CC6600;dashed=1;dashPattern=8 4;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="excel" target="bo_credits" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1160" y="720"/>
+                            <mxPoint x="500" y="720"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e15" value="Команда на&lt;br&gt;отправку СМС" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#9673a6;fontColor=#333333;exitX=1;exitY=1;entryX=0.5;entryY=0;" parent="1" source="abs" target="sms_gw" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1195" y="470"/>
+                            <mxPoint x="1195" y="830"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e16" value="Отправка СМС" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#666666;fontColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="sms_gw" target="telecom" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e17" value="СМС-уведомление&lt;br&gt;клиенту о ставке" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#666666;fontColor=#333333;dashed=1;exitX=0;exitY=0;entryX=0.5;entryY=1;" parent="1" source="telecom" target="client" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1350" y="780"/>
+                            <mxPoint x="50" y="780"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e18" value="Скрипты звонков&lt;br&gt;от бизнес-представителей" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#666666;fontColor=#333333;dashed=1;exitX=0;exitY=0.5;entryX=0.457;entryY=-0.05;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="partner_cc" target="crm" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1300" y="205"/>
+                            <mxPoint x="1300" y="80"/>
+                            <mxPoint x="596" y="80"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="830" width="650" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_title" value="&lt;b&gt;Легенда&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="835" width="100" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="865" width="20" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b1t" value="Подразделение банка" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="55" y="860" width="140" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="865" width="20" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b2t" value="IT-система банка" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="225" y="860" width="120" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="370" y="865" width="20" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b3t" value="АБС (ядро)" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="395" y="860" width="100" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="510" y="865" width="20" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_b4t" value="Внешняя система" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="535" y="860" width="120" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_l1" value="" style="endArrow=classic;html=1;strokeColor=#d79b00;strokeWidth=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="30" y="905" as="sourcePoint"/>
+                        <mxPoint x="80" y="905" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="leg_l1t" value="Системная интеграция" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="85" y="893" width="140" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_l2" value="" style="endArrow=classic;html=1;strokeColor=#CC0000;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="240" y="905" as="sourcePoint"/>
+                        <mxPoint x="290" y="905" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="leg_l2t" value="Прямая интеграция с БД (проблема)" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#CC0000;" parent="1" vertex="1">
+                    <mxGeometry x="295" y="893" width="210" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_l3" value="" style="endArrow=classic;html=1;strokeColor=#CC6600;strokeWidth=1;dashed=1;dashPattern=8 4;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="30" y="935" as="sourcePoint"/>
+                        <mxPoint x="80" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="leg_l3t" value="Ручная интеграция (email / Excel)" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#CC6600;" parent="1" vertex="1">
+                    <mxGeometry x="85" y="923" width="200" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg_l4" value="" style="endArrow=classic;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="240" y="935" as="sourcePoint"/>
+                        <mxPoint x="290" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="leg_l4t" value="Взаимодействие человека с системой" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="295" y="923" width="210" height="25" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
